@@ -1,5 +1,5 @@
 # Scoreboard
-###A scoreboard template with nodejs server to demonstrate use of web sockets using socket.io 
+A scoreboard template with nodejs server to demonstrate use of web sockets using socket.io 
 
 Steps to run this program:
 1. Run the index.js using the command "node index.js"
