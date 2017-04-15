@@ -1,0 +1,15 @@
+{
+  "name": "assignment-6",
+  "version": "1.0.0",
+  "description": "Live score updates!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nimish unde",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.10.2",
+    "socket.io": "^1.5.1"
+  }
+}

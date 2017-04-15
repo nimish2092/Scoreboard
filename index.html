@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Live Cricket Score</title>
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+	<style type="text/css">
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td,
+		article, aside, canvas, details, embed, 
+		figure, figcaption, footer, header, hgroup, 
+		menu, nav, output, ruby, section, summary,
+		time, mark, audio, video {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			font-size: 100%;
+			font: inherit;
+			vertical-align: baseline;
+		}
+		/* HTML5 display-role reset for older browsers */
+		article, aside, details, figcaption, figure, 
+		footer, header, hgroup, menu, nav, section {
+			display: block;
+		}
+		body {
+			line-height: 1;
+		}
+		ol, ul {
+			list-style: none;
+		}
+		blockquote, q {
+			quotes: none;
+		}
+		blockquote:before, blockquote:after,
+		q:before, q:after {
+			content: '';
+			content: none;
+		}
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+
+		*{
+			box-sizing: border-box;
+		}
+		/*
+		--------------------------------------------------------------------------------------
+								AFTER RESET
+		--------------------------------------------------------------------------------------
+		*/
+		.container{
+			width: 60%;
+			margin: 10% auto;
+			//border: 2px solid #5396d8;
+			box-shadow: 10px 10px 39px 1px rgba(0,0,0,0.75);
+		}
+
+		header{
+			width: 100%;
+			padding: 10px;
+			text-align: center;
+			color: #fff;
+			background: linear-gradient(to bottom, #5693c3, #a5c9fc);
+			font-family: 'Comfortaa', cursive;
+		}
+
+		.buttons{
+			display: inline-block;
+			width: 30%;
+			padding: 10px;
+			color: #fff;
+			margin: 20px 9%; 
+			text-align: center;
+			font-family: 'Comfortaa', cursive;
+		}
+
+		.buttons:hover{
+			cursor: pointer;
+			box-shadow: 10px 10px 39px 1px rgba(165,201,252,1);
+		}
+
+		#tunein{
+			border: 1px solid #859a50;
+			background-color: #abc46b;
+		}
+
+		#tuneout{
+			border: 1px solid #a04b46;
+			background-color: #cd6660;
+		}
+
+		p{
+			margin: 10px;
+			font-family: 'Comfortaa', cursive;
+		}
+
+		span{
+			color: #5693c3;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>Live Score</header>
+		<p><strong>Live Sporting Event: Cricket Match</strong></p>
+		<p>Current Score:</p>
+		<p><span id="score">Click on tune in to get current score!<span></p>
+		<p>Live Commentary:</p>
+		<p><span id="comm">Click on tune in to get live updates!<span></p>
+		<div class="buttons" id="tunein">Tune-In</div>
+		<div class="buttons" id="tuneout">Tune-Out</div>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+		var socket = null;
+		var score = 0;
+		$('#tunein').click(function(){
+			socket = io();
+			socket.on('updates', function(msg){
+				console.log(score);
+				var arr = msg.split("~");
+				score = arr[1];
+				var over = arr[2];
+				var balls = arr[3];
+				var comment = arr[0];
+    			$('#score').text(score + " runs" + " -- " + over + " overs & " + balls + " balls");
+    			$('#comm').text(comment);
+  			});
+		});
+		$('#tuneout').click(function(){
+			socket.disconnect(0);
+			$('#comm').text("Socket disconnected");
+			$('#score').text(score + '(socket-disconnected)');
+		});
+	</script>
+</body>
+</html>
